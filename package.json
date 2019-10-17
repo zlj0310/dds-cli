@@ -1,0 +1,32 @@
+{
+  "name": "dds-cli",
+  "version": "1.0.0",
+  "description": "一个测试脚手架",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "zlj0310",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^2.19.0",
+    "download-git-repo": "^1.1.0",
+    "fs": "^0.0.1-security",
+    "glob": "^7.1.4",
+    "inquirer": "^7.0.0",
+    "ora": "^3.2.0",
+    "path": "^0.12.7"
+  },
+  "bin": {
+    "dd": "bin/dd.js",
+    "dd-add": "bin/dd-add.js",
+    "dd-delete": "bin/dd-delete.js",
+    "dd-list": "bin/dd-list.js",
+    "dd-init": "bin/dd-init.js"
+  },
+  "devDependencies": {
+    "handlebars": "^4.4.3",
+    "metalsmith": "^2.3.0"
+  }
+}
