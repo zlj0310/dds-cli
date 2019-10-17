@@ -98,7 +98,7 @@ function go (answers) {
       // === 将自定义内容插入到模板中 ===
 
       spinner.succeed();
-      console.log(chalk.green('\n Genetation conplated!'))
+      console.log(chalk.green('\n ✨ Genetation Done! ✨ '))
       console.log('\n To get started')
       console.log(`\n cd ${projectName} && yarn && yarn start \n `)
 		})
@@ -119,7 +119,6 @@ function fileUpdate(filePath, answers){
               const filedir = path.join(filePath,filename);
               // 排除隐藏文件
               if(!/^\./.test(filename)){
-                console.log('---filename',filename)
                 // 根据文件路径获取文件信息，返回一个fs.Stats对象
                 fs.stat(filedir,(error,stats) => {
                     if(error){
