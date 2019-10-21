@@ -1,3 +1,6 @@
 #! /usr/bin/env node
-const tplObj = require(`${__dirname}/../template`)
-console.log(tplObj)
+
+const template = require(`${__dirname}/../template.js`)
+template().then(tplObj=> {
+  console.log(tplObj)
+})

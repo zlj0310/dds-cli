@@ -75,6 +75,7 @@ build/Release
 
 # Dependency directories
 node_modules
+template
 
 # Optional npm cache directory
 .npm
