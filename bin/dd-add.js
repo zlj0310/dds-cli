@@ -11,7 +11,7 @@ const exec = require('child_process').execSync;
 
 template().then(tplObj=> {
   // 自定义交互式命令行的问题及简单地校验
-	let question = [
+	const question = [
 		{
 			name: "name",
 			type: "input",
@@ -40,7 +40,7 @@ template().then(tplObj=> {
 
 	inquirer.prompt(question).then(answers => {
 		// answers 就是用户输入的内容，是个对象
-		let {name, url} = answers;
+		const {name, url} = answers;
 		// 过滤 unicode 字符
 		tplObj[name] = url.replace(/[\u0000-\u0019]/g, '')
 		// 把模板信息写入 template.json 文件中
