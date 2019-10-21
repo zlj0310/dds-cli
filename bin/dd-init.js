@@ -88,7 +88,7 @@ function go (answers) {
     spinner.start()
     url = tplObj[templateName]
     console.log(chalk.white('\n Start generating... \n'))
-    return download(url, projectName, err => {
+    return download(url, projectName,{ clone: true }, err => {
       if(err){
         spinner.fail();
         console.log(chalk.red(`Generation failed. ${err}`))
@@ -127,16 +127,20 @@ function fileUpdate(filePath, answers){
                       const isFile = stats.isFile();//是文件
                       const isDir = stats.isDirectory();//是文件夹
                       if(isFile){
-                        const meta = {
-                          projectName: filePath,
-                          version,
-                          description,
-                          author
+                        try {
+                          const meta = {
+                            projectName: filePath,
+                            version,
+                            description,
+                            author
+                          }
+                          const fileName = `${filedir}`;
+                          const content = fs.readFileSync(fileName).toString();
+                          const result = handlebars.compile(content)(meta);
+                          fs.writeFileSync(fileName, result);
+                        } catch {
+                          // TODO
                         }
-                        const fileName = `${filedir}`;
-                        const content = fs.readFileSync(fileName).toString();
-                        const result = handlebars.compile(content)(meta);
-                        fs.writeFileSync(fileName, result);
                       }
                       if(isDir){
                         fileUpdate(filedir, answers); // 递归，如果是文件夹，就继续遍历该文件夹下面的文件
