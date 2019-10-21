@@ -17,12 +17,14 @@ template().then(tplObj=> {
       name: "templateName",
       type: "list",
       message: "请选择模板",
+      default: process.argv[2],
       choices: tplObjList
     },
     {
       name: "projectName",
       type: "input",
       message: "projectName",
+      default: process.argv[3],
       validate(val) {
         if(!val){
           console.log()

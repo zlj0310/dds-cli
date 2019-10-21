@@ -16,6 +16,7 @@ template().then(tplObj=> {
 			name: "name",
 			type: "input",
 			message: "请输入模板名称",
+			default: process.argv[2],
 			validate(val) {
 				if(!val){
 					return 'Name is required!'
@@ -29,6 +30,7 @@ template().then(tplObj=> {
 			name: "url",
 			type: "input",
 			message: "请输入模板地址",
+			default: process.argv[3],
 			validate(val) {
 				if(!val){
 					return 'The url is required!'
