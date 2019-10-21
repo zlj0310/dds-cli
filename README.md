@@ -2,7 +2,7 @@
  * @Author: zhulijun
  * @LastEditors: zhulijun
  * @Date: 2019-10-17 16:43:36
- * @LastEditTime: 2019-10-21 17:44:56
+ * @LastEditTime: 2019-10-21 17:52:58
  * @Descripttion:
  -->
 ## dds-cli
@@ -11,7 +11,7 @@
 
 #### 添加模板
 ```sh
-dd add
+dd add 或 dd add [templateName] [templateUrl]
 ```
 
 #### 删除模板
@@ -25,5 +25,5 @@ dd list
 
 #### 新建模板项目
 ```sh
-dd init
+dd init 或 dd init [templateName] [projectName]
 ```
