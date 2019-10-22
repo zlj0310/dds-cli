@@ -2,10 +2,10 @@
  * @Author: zhulijun
  * @LastEditors: zhulijun
  * @Date: 2019-10-17 16:43:36
- * @LastEditTime: 2019-10-21 17:52:58
+ * @LastEditTime: 2019-10-22 16:27:20
  * @Descripttion:
  -->
-## dds-cli
+## @eros/dds-cli
 自定义项目脚手架，并能将自定义内容渲染到模板中
 
 
