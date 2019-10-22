@@ -1,5 +1,13 @@
 #! /usr/bin/env node
 
+/*
+ * @Author: zhulijun
+ * @LastEditors: zhulijun
+ * @Date: 2019-10-22 13:39:27
+ * @LastEditTime: 2019-10-22 14:11:40
+ * @Descripttion:
+ */
+
 // 交互式命令行
 const inquirer = require('inquirer')
 // 修改控制台字符串的样式

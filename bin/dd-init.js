@@ -1,4 +1,13 @@
 #! /usr/bin/env node
+
+/*
+ * @Author: zhulijun
+ * @LastEditors: zhulijun
+ * @Date: 2019-10-22 13:39:27
+ * @LastEditTime: 2019-10-22 14:11:28
+ * @Descripttion:
+ */
+
 const chalk = require('chalk')
 const ora = require('ora')
 const download = require('download-git-repo')
@@ -7,6 +16,7 @@ const path = require('path')
 const fs = require('fs')
 const inquirer = require('inquirer')
 const handlebars = require('handlebars')
+const minimatch = require('minimatch')
 
 const template = require(`${__dirname}/../template.js`)
 template().then(tplObj=> {
@@ -49,6 +59,12 @@ template().then(tplObj=> {
       name: "author",
       type: "input",
       message: "author",
+    },
+    {
+      name: "needTypescript",
+      type: "list",
+      message: "是否需要 typescript",
+      choices: ['yes', 'no']
     }
   ]
 
@@ -110,7 +126,36 @@ template().then(tplObj=> {
 
   // 将自定义内容渲染到模板中
   function fileUpdate(filePath, answers){
-    const {version, description, author} = answers;
+    const {version, description, author, needTypescript} = answers;
+    const meta = {
+      projectName: filePath,
+      version,
+      description,
+      author,
+      needTypescript: needTypescript === 'yes'
+    }
+
+    const ignoreFile = path.join(filePath, 'templates.ignore')
+    if (fs.existsSync(ignoreFile)) {
+      // 先对ignore文件进行渲染，然后按行切割ignore文件的内容，拿到被忽略清单
+      const ignores = handlebars.compile(fs.readFileSync(ignoreFile).toString())(meta)
+      .split('\n').filter(item => !!item.length)
+      fs.readdir(filePath, (err,files) => {
+        if(err){
+            console.warn(err)
+        }else{
+          files.forEach((filename) => {
+            // 移除被忽略的文件
+            ignores.forEach(ignorePattern => {
+              if (minimatch(filename, ignorePattern)) {
+                fs.unlinkSync(path.join(filePath,filename));
+              }
+            })
+          })
+        }
+      })
+    }
+
     // 根据文件路径读取文件，返回文件列表
     fs.readdir(filePath, (err,files) => {
         if(err){
@@ -131,12 +176,6 @@ template().then(tplObj=> {
                         const isDir = stats.isDirectory();//是文件夹
                         if(isFile){
                           try {
-                            const meta = {
-                              projectName: filePath,
-                              version,
-                              description,
-                              author
-                            }
                             const fileName = `${filedir}`;
                             const content = fs.readFileSync(fileName).toString();
                             const result = handlebars.compile(content)(meta);

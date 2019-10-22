@@ -1,4 +1,13 @@
 #! /usr/bin/env node
+
+/*
+ * @Author: zhulijun
+ * @LastEditors: zhulijun
+ * @Date: 2019-10-22 13:39:27
+ * @LastEditTime: 2019-10-22 14:11:48
+ * @Descripttion:
+ */
+
 const inquirer = require('inquirer')
 const chalk = require('chalk')
 const fs = require('fs')
