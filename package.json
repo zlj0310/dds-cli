@@ -1,6 +1,6 @@
 {
   "name": "@eros/dds-cli",
-  "version": "0.0.1-beta1",
+  "version": "0.0.1-beta.2",
   "description": "一个测试脚手架",
   "main": "index.js",
   "scripts": {
