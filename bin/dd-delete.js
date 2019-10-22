@@ -4,7 +4,7 @@
  * @Author: zhulijun
  * @LastEditors: zhulijun
  * @Date: 2019-10-22 13:39:27
- * @LastEditTime: 2019-10-22 15:35:36
+ * @LastEditTime: 2019-10-22 19:15:29
  * @Descripttion: 删除脚本的指令
  */
 
@@ -13,6 +13,7 @@ const chalk = require('chalk')
 const fs = require('fs')
 const template = require(`${__dirname}/../template.js`)
 const exec = require('child_process').execSync;
+const path = require('path')
 
 template().then(tplObj=> {
 	// 自定义交互式命令行的问题及简单地校验
@@ -48,7 +49,7 @@ function deleteTemplate(tplObj,name) {
 			console.log(err)
 			return
 		}
-		exec('npm run cdn', {stdio: 'inherit'});
+		exec('npm run cdn', {cwd: path.resolve(__dirname, '..')});
 		console.log('\n')
 		console.log(chalk.green('Deleted successfully!\n'))
 		console.log(chalk.grey('The latest template list is: \n'))
