@@ -44,7 +44,7 @@ template().then(tplObj=> {
 		// answers 就是用户输入的内容，是个对象
 		const {name, url} = answers;
 		// 过滤 unicode 字符
-		tplObj[name] = url.replace(/[\u0000-\u0019]/g, '')
+		tplObj[name] = 'direct:' + url.replace(/[\u0000-\u0019]/g, '')
 		// 把模板信息写入 template.json 文件中
 		fs.writeFile(`${__dirname}/../template/template.json`, JSON.stringify(tplObj), 'utf-8', err => {
 			if(err){
