@@ -4,8 +4,8 @@
  * @Author: zhulijun
  * @LastEditors: zhulijun
  * @Date: 2019-10-22 13:39:27
- * @LastEditTime: 2019-10-22 14:11:48
- * @Descripttion:
+ * @LastEditTime: 2019-10-22 15:35:36
+ * @Descripttion: 删除脚本的指令
  */
 
 const inquirer = require('inquirer')

@@ -4,8 +4,8 @@
  * @Author: zhulijun
  * @LastEditors: zhulijun
  * @Date: 2019-10-22 13:39:27
- * @LastEditTime: 2019-10-22 14:11:28
- * @Descripttion:
+ * @LastEditTime: 2019-10-22 15:35:05
+ * @Descripttion: 创建项目的指令
  */
 
 const chalk = require('chalk')
@@ -140,58 +140,52 @@ template().then(tplObj=> {
       // 先对ignore文件进行渲染，然后按行切割ignore文件的内容，拿到被忽略清单
       const ignores = handlebars.compile(fs.readFileSync(ignoreFile).toString())(meta)
       .split('\n').filter(item => !!item.length)
+
       fs.readdir(filePath, (err,files) => {
-        if(err){
-            console.warn(err)
-        }else{
-          files.forEach((filename) => {
-            // 移除被忽略的文件
-            ignores.forEach(ignorePattern => {
-              if (minimatch(filename, ignorePattern)) {
-                fs.unlinkSync(path.join(filePath,filename));
-              }
-            })
+        if(err) return console.warn(err)
+        files.forEach((filename) => {
+          // 移除被忽略的文件
+          ignores.forEach(ignorePattern => {
+            if (minimatch(filename, ignorePattern)) {
+              fs.unlinkSync(path.join(filePath,filename));
+            }
           })
-        }
+        })
       })
     }
 
     // 根据文件路径读取文件，返回文件列表
     fs.readdir(filePath, (err,files) => {
-        if(err){
-            console.warn(err)
-        }else{
-            // 遍历读取到的文件列表
-            files.forEach((filename) => {
-                // 获取当前文件的绝对路径
-                const filedir = path.join(filePath,filename);
-                // 排除隐藏文件
-                if(!/^\./.test(filename)){
-                  // 根据文件路径获取文件信息，返回一个fs.Stats对象
-                  fs.stat(filedir,(error,stats) => {
-                      if(error){
-                          console.warn('获取文件stats失败');
-                      }else{
-                        const isFile = stats.isFile();//是文件
-                        const isDir = stats.isDirectory();//是文件夹
-                        if(isFile){
-                          try {
-                            const fileName = `${filedir}`;
-                            const content = fs.readFileSync(fileName).toString();
-                            const result = handlebars.compile(content)(meta);
-                            fs.writeFileSync(fileName, result);
-                          } catch {
-                            // TODO
-                          }
-                        }
-                        if(isDir){
-                          fileUpdate(filedir, answers); // 递归，如果是文件夹，就继续遍历该文件夹下面的文件
-                        }
-                      }
-                  })
-                }
-            });
-        }
+        if(err) return console.warn(err)
+
+        // 遍历读取到的文件列表
+        files.forEach((filename) => {
+            // 获取当前文件的绝对路径
+            const filedir = path.join(filePath,filename);
+            // 排除隐藏文件
+            if(!/^\./.test(filename)){
+              // 根据文件路径获取文件信息，返回一个fs.Stats对象
+              fs.stat(filedir,(error,stats) => {
+                  if(error){
+                      console.warn('获取文件stats失败');
+                  }else{
+                    const isFile = stats.isFile();//是文件
+                    const isDir = stats.isDirectory();//是文件夹
+                    if(isFile){
+                      try {
+                        const fileName = `${filedir}`;
+                        const content = fs.readFileSync(fileName).toString();
+                        const result = handlebars.compile(content)(meta);
+                        fs.writeFileSync(fileName, result);
+                      } catch {}
+                    }
+                    if(isDir){
+                      fileUpdate(filedir, answers); // 递归，如果是文件夹，就继续遍历该文件夹下面的文件
+                    }
+                  }
+              })
+            }
+        });
     });
   }
 })
