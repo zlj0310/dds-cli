@@ -4,7 +4,7 @@
  * @Author: zhulijun
  * @LastEditors: zhulijun
  * @Date: 2019-10-22 13:39:27
- * @LastEditTime: 2019-10-22 15:35:05
+ * @LastEditTime: 2019-10-23 14:55:48
  * @Descripttion: 创建项目的指令
  */
 
@@ -60,12 +60,12 @@ template().then(tplObj=> {
       type: "input",
       message: "author",
     },
-    {
-      name: "needTypescript",
-      type: "list",
-      message: "是否需要 typescript",
-      choices: ['yes', 'no']
-    }
+    // {  // 自定义模板内容，暂不需要
+    //   name: "needTypescript",
+    //   type: "list",
+    //   message: "是否需要 typescript",
+    //   choices: ['yes', 'no']
+    // }
   ]
 
   let next = undefined
@@ -126,9 +126,9 @@ template().then(tplObj=> {
 
   // 将自定义内容渲染到模板中
   function fileUpdate(filePath, answers){
-    const {version, description, author, needTypescript} = answers;
+    const {version, description, author, needTypescript, projectName} = answers;
     const meta = {
-      projectName: filePath,
+      projectName,
       version,
       description,
       author,
@@ -162,29 +162,26 @@ template().then(tplObj=> {
         files.forEach((filename) => {
             // 获取当前文件的绝对路径
             const filedir = path.join(filePath,filename);
-            // 排除隐藏文件
-            if(!/^\./.test(filename)){
-              // 根据文件路径获取文件信息，返回一个fs.Stats对象
-              fs.stat(filedir,(error,stats) => {
-                  if(error){
-                      console.warn('获取文件stats失败');
-                  }else{
-                    const isFile = stats.isFile();//是文件
-                    const isDir = stats.isDirectory();//是文件夹
-                    if(isFile){
-                      try {
-                        const fileName = `${filedir}`;
-                        const content = fs.readFileSync(fileName).toString();
-                        const result = handlebars.compile(content)(meta);
-                        fs.writeFileSync(fileName, result);
-                      } catch {}
-                    }
-                    if(isDir){
-                      fileUpdate(filedir, answers); // 递归，如果是文件夹，就继续遍历该文件夹下面的文件
-                    }
+            // 根据文件路径获取文件信息，返回一个fs.Stats对象
+            fs.stat(filedir,(error,stats) => {
+                if(error){
+                    console.warn('获取文件stats失败');
+                }else{
+                  const isFile = stats.isFile();//是文件
+                  const isDir = stats.isDirectory();//是文件夹
+                  if(isFile){
+                    try {
+                      const fileName = `${filedir}`;
+                      const content = fs.readFileSync(fileName).toString();
+                      const result = handlebars.compile(content)(meta);
+                      fs.writeFileSync(fileName, result);
+                    } catch {}
                   }
-              })
-            }
+                  if(isDir){
+                    fileUpdate(filedir, answers); // 递归，如果是文件夹，就继续遍历该文件夹下面的文件
+                  }
+                }
+            })
         });
     });
   }
